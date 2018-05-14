@@ -2,6 +2,27 @@
 
 {% block content %}
 
+    <div class="sortbar">
+        <span>order by</span>
+        <span>
+            <a {% if orderBy == 'score' %}class="selected" {% endif %}href="{{ path('homepage_ordered', {'orderBy': 'score'}) }}">
+                score
+            </a>
+        </span>
+        <span>
+            <a {% if orderBy == 'date' %}class="selected" {% endif %}href="{{ path('homepage_ordered', {'orderBy': 'date'}) }}">
+                date
+            </a>
+        </span>
+        <span>
+            <a {% if orderBy == 'title' %}class="selected" {% endif %}href="{{ path('homepage_ordered', {'orderBy': 'title'}) }}">
+                title
+            </a>
+        </span>
+    </div>
+
+    <hr/>
+
 <div id="content">
     {% set i = 1 %}
     {% for thread in threads %}
