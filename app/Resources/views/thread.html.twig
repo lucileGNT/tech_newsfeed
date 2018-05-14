@@ -3,5 +3,13 @@
 {% block content %}
     <div class="content">
         <div><a href="{{ thread.link }}">{{ thread.title }}</a></div>
+
+        <h2>Comments</h2>
+        {% for comment in thread.comments %}
+            <div>
+                {{ comment.userId }} - {{ comment.date|date("m/d/Y") }}<br/>
+                {{ comment.text }}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
