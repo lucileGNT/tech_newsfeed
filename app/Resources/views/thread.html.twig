@@ -2,9 +2,18 @@
 
 {% block content %}
     <div class="content">
-        <div><a href="{{ thread.link }}">{{ thread.title }}</a></div>
+        <div>
+            <a href="{{ thread.link }}">{{ thread.title }}</a>
+        </div>
 
+        <hr/>
         <h2>Comments</h2>
+
+        {{ render(controller(
+            'AppBundle:Default:addComment',
+            { 'id': thread.id }
+        )) }}
+
         {% if thread.comments|length == 0 %}
             No comments
         {% else %}
