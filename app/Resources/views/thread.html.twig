@@ -5,11 +5,15 @@
         <div><a href="{{ thread.link }}">{{ thread.title }}</a></div>
 
         <h2>Comments</h2>
-        {% for comment in thread.comments %}
-            <div>
-                {{ comment.userId }} - {{ comment.date|date("m/d/Y") }}<br/>
-                {{ comment.text }}
-            </div>
-        {% endfor %}
+        {% if thread.comments|length == 0 %}
+            No comments
+        {% else %}
+            {% for comment in thread.comments %}
+                <div>
+                    {{ comment.userId }} - {{ comment.date|date("m/d/Y") }}<br/>
+                    {{ comment.text }}
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
