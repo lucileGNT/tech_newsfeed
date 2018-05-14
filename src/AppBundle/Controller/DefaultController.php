@@ -2,9 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Thread;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\Type\ThreadType;
 
 class DefaultController extends Controller
 {
@@ -56,7 +58,35 @@ class DefaultController extends Controller
         $result = $query->execute();
 
         return $this->redirectToRoute('homepage');
+    }
+
+    /**
+     * @Route("/new", name="new_thread")
+     */
+    public function newThreadAction(Request $request)
+    {
+        $thread = new Thread();
+
+        $form = $this->createForm(ThreadType::class, $thread);
 
 
+        if ($request->isMethod('POST')) {
+
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $thread->setDate(new \DateTime());
+                $thread->setScore(0);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($thread);
+                $em->flush();
+            }
+        }
+
+        return $this->render('new.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+            'form' => $form->createView()
+        ]);
     }
 }
