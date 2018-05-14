@@ -3,9 +3,12 @@
 {% block content %}
 
 <div id="content">
+    {% set i = 1 %}
     {% for thread in threads %}
         <div class="thread-content">
-            <a href="{{ path('thread', {'id': thread.id}) }}">{{ thread.title }}</a> - {{ thread.date|date("m/d/Y") }} - votes : {{ thread.upvote }}
+            {{ i }} - <a href="{{ thread.link }}">{{ thread.title }}</a> - {{ thread.date|date("m/d/Y") }} - votes : {{ thread.score }} - <a href="{{ path('vote', {'id': thread.id}) }}">up</a>
+            <div><a href="{{ path('thread', {'id': thread.id}) }}">{{ thread.comments|length }} comments</a></div>
+            {% set i = i+1 %}
         </div>
     {% endfor %}
 </div>

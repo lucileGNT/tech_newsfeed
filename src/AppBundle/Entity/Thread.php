@@ -46,9 +46,9 @@ class Thread
     /**
      * @var int
      *
-     * @ORM\Column(name="upvote", type="integer", nullable=true)
+     * @ORM\Column(name="score", type="integer", nullable=true, options={"default" : 0})
      */
-    private $upvote;
+    private $score;
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="thread")
@@ -131,27 +131,27 @@ class Thread
     }
 
     /**
-     * Set upvote
+     * Set score
      *
-     * @param integer $upvote
+     * @param integer $score
      *
      * @return Thread
      */
-    public function setUpvote($upvote)
+    public function setScore($score)
     {
-        $this->upvote = $upvote;
+        $this->score = $score;
 
         return $this;
     }
 
     /**
-     * Get upvote
+     * Get score
      *
      * @return int
      */
-    public function getUpvote()
+    public function getScore()
     {
-        return $this->upvote;
+        return $this->score;
     }
 
     /**
