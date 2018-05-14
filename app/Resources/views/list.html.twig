@@ -1,0 +1,13 @@
+{% extends "default/index.html.twig" %}
+
+{% block content %}
+
+<div id="content">
+    {% for thread in threads %}
+        <div class="thread-content">
+            <a href="{{ path('thread', {'id': thread.id}) }}">{{ thread.title }}</a> - {{ thread.date|date("m/d/Y") }} - votes : {{ thread.upvote }}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

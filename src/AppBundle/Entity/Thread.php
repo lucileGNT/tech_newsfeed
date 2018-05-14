@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,6 +25,13 @@ class Thread
     /**
      * @var string
      *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="link", type="string", length=255)
      */
     private $link;
@@ -42,6 +50,11 @@ class Thread
      */
     private $upvote;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="thread")
+     */
+    private $comments;
+
 
     /**
      * Get id
@@ -51,6 +64,22 @@ class Thread
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**
@@ -123,6 +152,14 @@ class Thread
     public function getUpvote()
     {
         return $this->upvote;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
 

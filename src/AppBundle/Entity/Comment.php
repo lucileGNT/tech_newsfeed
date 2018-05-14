@@ -42,6 +42,12 @@ class Comment
      */
     private $date;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Thread", inversedBy="comments")
+     * @ORM\JoinColumn(name="thread_id", referencedColumnName="id")
+     */
+    private $thread;
+
 
     /**
      * Get id
@@ -123,6 +129,22 @@ class Comment
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * @return Thread
+     */
+    public function getThread()
+    {
+        return $this->thread;
+    }
+
+    /**
+     * @param Thread $thread
+     */
+    public function setThread($thread)
+    {
+        $this->thread = $thread;
     }
 }
 
