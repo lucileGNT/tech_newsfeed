@@ -46,17 +46,21 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
+
+            var orderBy = $("#sortbar a.selected").attr('id').substr(9);
+            var way = $(this).hasClass("down") ? "DESC" : "ASC";
+
             getThreads('score', 'DESC');
 
             $("#sortbar a").click(function(e){
                 e.preventDefault();
 
-                var orderBy = $(this).attr('id').substr(9);
+                orderBy = $(this).attr('id').substr(9);
                 if ($(this).hasClass("down")){
-                    var way = "ASC";
+                    way = "ASC";
                     $(this).removeClass("down").addClass("up");
                 } else {
-                    var way = "DESC";
+                    way = "DESC";
                     $(this).removeClass("up").addClass("down");
                 }
 
@@ -69,6 +73,15 @@
 
                 getThreads(orderBy, way);
 
+            });
+
+            $(document).on("click", ".vote", function(e){
+
+                e.preventDefault();
+
+                var id = $(this).attr('id').substr(5);
+
+                voteForThread(id, orderBy, way);
             });
         });
 
@@ -94,11 +107,29 @@
                         $(".thread-content:last .link").attr('href',data.responseJSON.threads[i]['link']);
                         $(".thread-content:last .date").html(data.responseJSON.threads[i]['date']);
                         $(".thread-content:last .score").html(data.responseJSON.threads[i]['score']);
-                        $(".thread-content:last .vote").attr('href',data.responseJSON.threads[i]['vote']);
+                        $(".thread-content:last .vote").attr('id',data.responseJSON.threads[i]['vote']);
                         $(".thread-content:last .nb_comments").html(data.responseJSON.threads[i]['nb_comments']);
                         $(".thread-content:last .thread").attr('href',data.responseJSON.threads[i]['thread_link']);
                         j++;
                     }
+                }
+            });
+        }
+
+        function voteForThread(id, orderBy, way){
+            $.ajax({
+                type: 'POST',
+                url: "{{ path('vote') }} ",
+                data: {id: id},
+                datatype: "json",
+                complete: function (data) {
+                    if (data.responseJSON.result === 1){
+                        $(".thread-content:gt(0)").remove();
+                        $("#threads").hide();
+                        $("#loading").show();
+
+                        getThreads(orderBy, way);
+                    };
                 }
             });
         }

@@ -32,7 +32,7 @@ class ThreadController extends Controller
             $threadArray[$i]['link'] = $thread->getLink();
             $threadArray[$i]['date'] = $thread->getDate()->format('Y-m-d');
             $threadArray[$i]['score'] = $thread->getScore();
-            $threadArray[$i]['vote'] = $this->generateUrl('vote', array('id' => $thread->getId()));
+            $threadArray[$i]['vote'] = 'vote_'.$thread->getId();
             $threadArray[$i]['nb_comments'] = $thread->getComments()->count();
             $threadArray[$i]['thread_link'] = $this->generateUrl('thread', array('id' => $thread->getId()));
             $i++;
@@ -46,5 +46,35 @@ class ThreadController extends Controller
 
         return $response;
 
+    }
+
+    /**
+     * @Route("/vote", name="vote")
+     */
+    public function voteForThreadAction(Request $request)
+    {
+
+        $id = $request->request->get('id') !== "" ? $request->request->get('id') : null;
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->createQuery(
+            'UPDATE AppBundle:Thread t
+              SET t.score = t.score + 1
+              WHERE t.id = :thread_id'
+        )
+            ->setParameter('thread_id', $id);
+
+        $result = $query->execute();
+
+
+
+        $response = new Response();
+        $resultJSON = json_encode(array('result' => $result));
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent($resultJSON);
+
+        return $response;
     }
 }
