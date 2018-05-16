@@ -62,6 +62,8 @@ class DefaultController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($thread);
                 $em->flush();
+
+                return $this->redirect($this->generateUrl('homepage'));
             }
         }
 
