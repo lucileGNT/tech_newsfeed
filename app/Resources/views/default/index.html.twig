@@ -4,12 +4,12 @@
     <div id="wrapper">
         <div id="container">
             <div id="header">
-                <h1>Newsfeed</h1>
+                <h1>Top tech news</h1>
             </div>
 
-            <div class="nav">
-                <span><a href="{{ path('homepage') }}">homepage</a></span>
-                <span><a href="{{ path('new_thread') }}">submit</a></span>
+            <div>
+                <span><a href="{{ path('homepage') }}"{% if app.request.get('_route') == 'homepage' %} class="selected"{% endif %}>homepage</a></span>
+                <span><a href="{{ path('new_thread') }}"{% if app.request.get('_route') == 'new_thread' %} class="selected"{% endif %}>submit</a></span>
             </div>
 
             <hr/>
@@ -21,6 +21,7 @@
 {% endblock %}
 
 {% block stylesheets %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 <style>
     body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
     h1, h2 { line-height: 1.2; margin: 0 0 .5em; }

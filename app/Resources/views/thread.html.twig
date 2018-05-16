@@ -5,6 +5,9 @@
         <div>
             <a href="{{ thread.link }}">{{ thread.title }}</a>
         </div>
+        <div>
+            {{ thread.date|date("Y-m-d") }} - votes : {{ thread.score }}
+        </div>
 
         <hr/>
         <h2>Comments</h2>
