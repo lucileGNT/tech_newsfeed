@@ -93,7 +93,6 @@ class DefaultController extends Controller
                     ->find($id);
 
                 $comment->setDate(new \DateTime());
-                $comment->setUserId(1);
                 $comment->setThread($thread);
 
 

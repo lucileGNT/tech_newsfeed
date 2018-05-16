@@ -19,7 +19,7 @@
         {% else %}
             {% for comment in thread.comments %}
                 <div>
-                    {{ comment.userId }} - {{ comment.date|date("Y-m-d") }}<br/>
+                    {{ comment.username }} on {{ comment.date|date("Y-m-d") }}<br/>
                     {{ comment.text }}
                 </div>
             {% endfor %}

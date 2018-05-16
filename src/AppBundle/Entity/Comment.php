@@ -24,9 +24,9 @@ class Comment
     /**
      * @var int
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="username", type="string")
      */
-    private $userId;
+    private $username;
 
     /**
      * @var string
@@ -60,27 +60,27 @@ class Comment
     }
 
     /**
-     * Set userId
+     * Set username
      *
-     * @param integer $userId
+     * @param string $username
      *
      * @return Comment
      */
-    public function setUserId($userId)
+    public function setUsername($username)
     {
-        $this->userId = $userId;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get username
      *
-     * @return int
+     * @return string
      */
-    public function getUserId()
+    public function getUsername()
     {
-        return $this->userId;
+        return $this->username;
     }
 
     /**
