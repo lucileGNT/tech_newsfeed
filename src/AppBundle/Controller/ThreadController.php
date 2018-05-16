@@ -29,6 +29,7 @@ class ThreadController extends Controller
 
             $threadArray[$i]['index'] = $i+1;
             $threadArray[$i]['title'] = $thread->getTitle();
+            $threadArray[$i]['added_by'] = $thread->getAddedBy();
             $threadArray[$i]['link'] = $thread->getLink();
             $threadArray[$i]['date'] = $thread->getDate()->format('Y-m-d');
             $threadArray[$i]['score'] = $thread->getScore();

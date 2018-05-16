@@ -14,6 +14,7 @@ class ThreadType extends AbstractType
     {
 
         $builder
+            ->add('added_by', TextType::class)
             ->add('title', TextType::class)
             ->add('link', TextType::class)
             ->add('Save', SubmitType::class);

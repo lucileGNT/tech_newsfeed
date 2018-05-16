@@ -55,6 +55,13 @@ class Thread
      */
     private $comments;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="added_by", type="string", length=255)
+     */
+    private $addedBy;
+
 
     /**
      * Get id
@@ -160,6 +167,22 @@ class Thread
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddedBy()
+    {
+        return $this->addedBy;
+    }
+
+    /**
+     * @param string $addedBy
+     */
+    public function setAddedBy($addedBy)
+    {
+        $this->addedBy = $addedBy;
     }
 }
 
