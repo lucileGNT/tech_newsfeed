@@ -35,9 +35,14 @@ class DefaultController extends Controller
             ->getRepository('AppBundle:Thread')
             ->find($id);
 
+        $comments = $this->getDoctrine()
+            ->getRepository('AppBundle:Comment')
+            ->findBy(['thread' => $thread], ['date' => 'desc']);
+
         return $this->render('thread.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-            'thread' => $thread
+            'thread' => $thread,
+            'comments' => $comments
         ]);
     }
 

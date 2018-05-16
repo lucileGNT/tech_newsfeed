@@ -17,11 +17,11 @@
             { 'id': thread.id }
         )) }}
 
-        {% if thread.comments|length == 0 %}
+        {% if comments|length == 0 %}
             No comments
         {% else %}
-            {% for comment in thread.comments %}
-                <div>
+            {% for comment in comments %}
+                <div class="mb-2">
                     {{ comment.username }} on {{ comment.date|date("Y-m-d") }}<br/>
                     {{ comment.text }}
                 </div>
