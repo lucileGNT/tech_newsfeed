@@ -17,14 +17,10 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $threads = $this->getDoctrine()
-            ->getRepository('AppBundle:Thread')
-            ->findBy([],['score' => 'DESC']);
 
         // replace this example code with whatever you need
         return $this->render('list.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-            'threads' => $threads,
             'orderBy' => 'score',
             'way' => 'desc'
         ]);

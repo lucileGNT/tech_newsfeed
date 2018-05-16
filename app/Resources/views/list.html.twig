@@ -23,19 +23,58 @@
 
     <hr/>
 
-<div id="content">
-    {% set i = 1 %}
-    {% for thread in threads %}
-        <div class="thread-content">
-            <div>
-                {{ i }} - <a href="{{ thread.link }}">{{ thread.title }}</a> - {{ thread.date|date("m/d/Y") }} - votes : {{ thread.score }} - <a href="{{ path('vote', {'id': thread.id}) }}">up</a>
-            </div>
-            <div>
-                <a href="{{ path('thread', {'id': thread.id}) }}">{{ thread.comments|length }} comments</a>
-            </div>
-            {% set i = i+1 %}
+    <div id="content">
+        <div id="loading">
+            Please wait...
         </div>
-    {% endfor %}
-</div>
+        <div id="threads" style="display:none">
+            <div class="thread-content">
+                <div>
+                    <span class="index"></span> - <a href="#" class="link"></a> - <span class="date"></span> - votes : <span class="score"></span> - <a href="#" class="vote">up</a>
+                </div>
+                <div>
+                    <a href="#" class="thread"><span class="nb_comments"></span> comments</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            getThreads();
+        });
+
+        function getThreads(){
+            $.ajax({
+                type: 'POST',
+                url: "{{ path('get_threads')}} ",
+                datatype: "json",
+                complete: function(data) {
+                    $("#loading").hide();
+                    $("#threads").show();
+
+                    console.log(data.responseJSON.threads);
+                    for (var i in data.responseJSON.threads) {
+                        if (i > 1) {
+                            $(".thread-content:first").clone().appendTo("#threads")
+                        }
+                        $(".thread-content:last .index").html(data.responseJSON.threads[i]['index']);
+                        $(".thread-content:last .link").html(data.responseJSON.threads[i]['title']);
+                        $(".thread-content:last .link").attr('href',data.responseJSON.threads[i]['link']);
+                        $(".thread-content:last .date").html(data.responseJSON.threads[i]['date']);
+                        $(".thread-content:last .score").html(data.responseJSON.threads[i]['score']);
+                        $(".thread-content:last .vote").attr('href',data.responseJSON.threads[i]['vote']);
+                        $(".thread-content:last .nb_comments").html(data.responseJSON.threads[i]['nb_comments']);
+                        $(".thread-content:last .thread").attr('href',data.responseJSON.threads[i]['thread_link']);
+                    }
+                }
+            });
+        }
+
+    </script>
 {% endblock %}
