@@ -25,23 +25,6 @@ class DefaultController extends Controller
             'way' => 'desc'
         ]);
     }
-    /**
-     * @Route("/orderBy/{orderBy}/{way}", name="homepage_ordered")
-     */
-    public function indexOrderedAction($orderBy = 'score', $way = 'desc', Request $request)
-    {
-        $threads = $this->getDoctrine()
-            ->getRepository('AppBundle:Thread')
-            ->findBy([],[$orderBy => $way]);
-
-        // replace this example code with whatever you need
-        return $this->render('list.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-            'threads' => $threads,
-            'orderBy' => $orderBy,
-            'way' => $way
-        ]);
-    }
 
     /**
      * @Route("/thread/{id}", name="thread")

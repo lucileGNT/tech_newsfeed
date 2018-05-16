@@ -2,20 +2,20 @@
 
 {% block content %}
 
-    <div class="sortbar">
+    <div id="sortbar">
         <span>order by</span>
         <span>
-            <a {% if orderBy == 'score' %}class="selected" {% endif %}href="{{ path('homepage_ordered', {'orderBy': 'score'}) }}">
+            <a class="selected down" href="#" id="order-by-score">
                 score
             </a>
         </span>
         <span>
-            <a {% if orderBy == 'date' %}class="selected" {% endif %}href="{{ path('homepage_ordered', {'orderBy': 'date'}) }}">
+            <a class="down" href="#"  id="order-by-date">
                 date
             </a>
         </span>
         <span>
-            <a {% if orderBy == 'title' %}class="selected" {% endif %}href="{{ path('homepage_ordered', {'orderBy': 'title'}) }}">
+            <a class="down" href="#" id="order-by-title">
                 title
             </a>
         </span>
@@ -46,21 +46,47 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
-            getThreads();
+            getThreads('score', 'DESC');
+
+            $("#sortbar a").click(function(e){
+                e.preventDefault();
+
+                var orderBy = $(this).attr('id').substr(9);
+                if ($(this).hasClass("down")){
+                    var way = "ASC";
+                    $(this).removeClass("down").addClass("up");
+                } else {
+                    var way = "DESC";
+                    $(this).removeClass("up").addClass("down");
+                }
+
+                $("#sortbar a").removeClass("selected");
+                $(this).addClass("selected");
+
+                $(".thread-content:gt(0)").remove();
+                $("#threads").hide();
+                $("#loading").show();
+
+                getThreads(orderBy, way);
+
+            });
         });
 
-        function getThreads(){
+        function getThreads(orderBy, way){
+
             $.ajax({
                 type: 'POST',
                 url: "{{ path('get_threads')}} ",
+                data: { orderBy : orderBy , way : way},
                 datatype: "json",
                 complete: function(data) {
+
                     $("#loading").hide();
                     $("#threads").show();
 
-                    console.log(data.responseJSON.threads);
+                    j = 0;
                     for (var i in data.responseJSON.threads) {
-                        if (i > 1) {
+                        if (j > 0) {
                             $(".thread-content:first").clone().appendTo("#threads")
                         }
                         $(".thread-content:last .index").html(data.responseJSON.threads[i]['index']);
@@ -71,6 +97,7 @@
                         $(".thread-content:last .vote").attr('href',data.responseJSON.threads[i]['vote']);
                         $(".thread-content:last .nb_comments").html(data.responseJSON.threads[i]['nb_comments']);
                         $(".thread-content:last .thread").attr('href',data.responseJSON.threads[i]['thread_link']);
+                        j++;
                     }
                 }
             });
