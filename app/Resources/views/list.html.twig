@@ -6,7 +6,7 @@
         <span>order by</span>
         <span>
             <a class="selected down" href="#" id="order-by-score">
-                score
+                score <i class="fa fa-sort-desc" aria-hidden="true"></i>
             </a>
         </span>
         <span>
@@ -27,7 +27,7 @@
         <div id="loading">
             Please wait...
         </div>
-        <div id="threads" class="none">
+        <div id="threads" style="display:none">
             <div class="thread-content mb-2">
                 <div>
                     <span class="index"></span> - <a href="#" class="link"></a>
@@ -69,7 +69,8 @@
                 }
 
                 $("#sortbar a").removeClass("selected");
-                $(this).addClass("selected");
+                $("#sortbar a i").remove();
+                $(this).addClass("selected").append('<i class="fa fa-sort-'+way.toLowerCase()+'" aria-hidden="true"></i>');
 
                 //Reload thread list
                 $(".thread-content:gt(0)").remove();
@@ -101,6 +102,11 @@
 
                     $("#loading").hide();
                     $("#threads").show();
+
+                    if (data.responseJSON.threads.length == 0){
+                        $("#threads").html("Nothing to show. Please submit some links :)");
+
+                    }
 
                     //Populate HTML
                     j = 0;
