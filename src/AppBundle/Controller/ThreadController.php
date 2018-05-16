@@ -9,20 +9,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ThreadController
+ *
+ * API for thread manipulation
+ *
+ * @package AppBundle\Controller
+ */
+
 class ThreadController extends Controller
 {
     /**
+     * Get all threads
+     *
      * @Route("/getThreads", name="get_threads")
      */
     public function getThreadsAction(Request $request)
     {
+
+        //Get posted params
+
         $orderBy = $request->request->get('orderBy') !== "" ? $request->request->get('orderBy') : 'score';
         $way = $request->request->get('way') !== "" ? $request->request->get('way') : 'DESC';
 
+        //Get values from database
         $threads = $this->getDoctrine()
             ->getRepository('AppBundle:Thread')
             ->findBy([],[$orderBy => $way]);
 
+        //Build array of data then encode it
         $threadArray = [];
         $i = 0;
         foreach($threads as $thread) {
@@ -50,13 +65,17 @@ class ThreadController extends Controller
     }
 
     /**
+     * Vote for a thread
+     *
      * @Route("/vote", name="vote")
      */
     public function voteForThreadAction(Request $request)
     {
 
+        //Get posted params
         $id = $request->request->get('id') !== "" ? $request->request->get('id') : null;
 
+        //Get values from database
         $em = $this->getDoctrine()->getManager();
 
         $query = $em->createQuery(
@@ -68,8 +87,7 @@ class ThreadController extends Controller
 
         $result = $query->execute();
 
-
-
+        //Send response
         $response = new Response();
         $resultJSON = json_encode(array('result' => $result));
 

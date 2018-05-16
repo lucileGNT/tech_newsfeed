@@ -13,6 +13,8 @@ use AppBundle\Form\Type\CommentType;
 class DefaultController extends Controller
 {
     /**
+     * Homepage
+     *
      * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
@@ -27,6 +29,8 @@ class DefaultController extends Controller
     }
 
     /**
+     * Displays one specific thread
+     *
      * @Route("/thread/{id}", name="thread")
      */
     public function showThreadAction($id, Request $request)
@@ -47,16 +51,21 @@ class DefaultController extends Controller
     }
 
     /**
+     * Add a new thread
+     *
      * @Route("/new", name="new_thread")
      */
     public function newThreadAction(Request $request)
     {
         $thread = new Thread();
 
+        //Create form
+
         $form = $this->createForm(ThreadType::class, $thread);
 
-
         if ($request->isMethod('POST')) {
+
+            //Handle form data
 
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -79,17 +88,22 @@ class DefaultController extends Controller
     }
 
     /**
+     * Add a new comment to a thread
+     *
      * @Route("/thread/{id}/comment", name="add_comment")
      */
     public function addCommentAction($id, Request $request)
     {
         $comment = new Comment();
 
+        //Create form
         $action = $this->generateUrl('add_comment', array('id' => $id));
 
         $form = $this->createForm(CommentType::class, $comment, array('action' => $action));
 
         if ($request->isMethod('POST')) {
+
+            //Handle form data
 
             $form->handleRequest($request);
 

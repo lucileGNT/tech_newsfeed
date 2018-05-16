@@ -47,14 +47,18 @@
 
         $(document).ready(function(){
 
-            var orderBy = $("#sortbar a.selected").attr('id').substr(9);
-            var way = $(this).hasClass("down") ? "DESC" : "ASC";
+            //Initialize sort variables
 
+            var orderBy = $("#sortbar a.selected").attr('id').substr(9);
+            var way = $("#order-by-score").hasClass("down") ? "DESC" : "ASC";
+
+            //Populate thread list
             getThreads('score', 'DESC');
 
             $("#sortbar a").click(function(e){
                 e.preventDefault();
 
+                //Get new sort variables values
                 orderBy = $(this).attr('id').substr(9);
                 if ($(this).hasClass("down")){
                     way = "ASC";
@@ -67,6 +71,7 @@
                 $("#sortbar a").removeClass("selected");
                 $(this).addClass("selected");
 
+                //Reload thread list
                 $(".thread-content:gt(0)").remove();
                 $("#threads").hide();
                 $("#loading").show();
@@ -97,6 +102,7 @@
                     $("#loading").hide();
                     $("#threads").show();
 
+                    //Populate HTML
                     j = 0;
                     for (var i in data.responseJSON.threads) {
                         if (j > 0) {
@@ -118,6 +124,8 @@
         }
 
         function voteForThread(id, orderBy, way){
+
+            //Call method to increment the score of the thread
             $.ajax({
                 type: 'POST',
                 url: "{{ path('vote') }} ",
@@ -129,6 +137,7 @@
                         $("#threads").hide();
                         $("#loading").show();
 
+                        //Reload thread list
                         getThreads(orderBy, way);
                     };
                 }
